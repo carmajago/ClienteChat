@@ -6,6 +6,7 @@
 package models;
 
 import javax.swing.JPanel;
+import views.Texto;
 
 /**
  *
@@ -15,9 +16,9 @@ public class User {
     
     private int id;
     private String username;
-    public JPanel jpanel;
+    public Texto jpanel;
 
-    public User(int id, String username,JPanel jPanel) {
+    public User(int id, String username,Texto jPanel) {
         this.id = id;
         this.username = username;
         this.jpanel=jPanel;
@@ -27,7 +28,7 @@ public class User {
         return jpanel;
     }
 
-    public void setJpanel(JPanel jpanel) {
+    public void setJpanel(Texto jpanel) {
         this.jpanel = jpanel;
     }
 

@@ -302,11 +302,24 @@ public class Index extends javax.swing.JFrame implements Runnable{
     private void btnsendMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsendMouseClicked
         
      this.socket.WriteText(this.entrydata.getText());
-        
+             
+             
+             //temporal
+          this.listUsers.getSelectedIndex();
+            
+           
     }//GEN-LAST:event_btnsendMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
+            this.listUsers.getSelectedIndex();
+            
+            for (User item:users) {
+            if(item.getUsername().toUpperCase().equals(this.listUsers.getSelectedValue().trim().toUpperCase())){
+                System.out.println("entra");
+                item.jpanel.agregarTexto(this.entrydata.getText());
+            }
+                }
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -377,7 +390,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
     while(true){
         String llegada=socket.ReadText();
         System.out.println(llegada);
-        int response=Integer.parseInt(llegada.substring(0,3));
+        String response=llegada.substring(0,3);
         
         if(Respuestas.geUsers(response)){
             addUserList(llegada.substring(4));

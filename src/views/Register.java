@@ -129,7 +129,7 @@ public class Register extends javax.swing.JFrame {
 
         String respuesta = this.socket.ReadText();
 
-        int res = Integer.parseInt(respuesta.substring(0, 3));
+        String res =respuesta.substring(0,3);
         String salida = Respuestas.GetRespuesta(res);
 
         System.out.println(salida);

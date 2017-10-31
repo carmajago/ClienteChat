@@ -11,25 +11,25 @@ package models;
  */
 public class   Respuestas {
     
-    public static final int OK=100;
-    public static final int REGISTRO_OK=101;
-    public static final int MENSAJE_ENVIADO=102;
-    public static final int MENSAJE_BROADCAST=103;
-    public static final int MENSAJE_ELIMINADO=104;
-    public static final int NUM_USERS=105;
-    public static final int GET_USERS=106;
+    public static final String OK="100";
+    public static final String REGISTRO_OK="101";
+    public static final String MENSAJE_ENVIADO="102";
+    public static final String MENSAJE_BROADCAST="103";
+    public static final String MENSAJE_ELIMINADO="104";
+    public static final String NUM_USERS="105";
+    public static final String GET_USERS="106";
     
-    public static final int REGISTRO_ERROR=201;
-    public static final int MENSAJE_NO_ENVIADO=202;
-    public static final int MENSAJE_NO_BROADCAST=203;
-    public static final int USUARIO_NO_VALIDO=204;
-    public static final int MENSAJE_NO_BORRADO=205;
-    public static final int LIMITE_INTENTOS=206;
+    public static final String REGISTRO_ERROR="201";
+    public static final String MENSAJE_NO_ENVIADO="202";
+    public static final String MENSAJE_NO_BROADCAST="203";
+    public static final String USUARIO_NO_VALIDO="204";
+    public static final String MENSAJE_NO_BORRADO="205";
+    public static final String LIMITE_INTENTOS="206";
 
  
     
     
-    public static String  GetRespuesta(int data){
+    public static String  GetRespuesta(String data){
      
         String mensaje="";
                 
@@ -76,16 +76,16 @@ public class   Respuestas {
     return mensaje;
     }
     
-    public static boolean  Register(int data){
+    public static boolean  Register(String data){
         
-        if(data==101)
+        if(data.equals(REGISTRO_OK))
             return true;
         
         return false;
     }
     
-    public static boolean geUsers(int data){
-        if(data==106)
+    public static boolean geUsers(String data){
+        if(data.equals(GET_USERS))
             return true;
         
         return false;
