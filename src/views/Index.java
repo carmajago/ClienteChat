@@ -82,11 +82,28 @@ public class Index extends javax.swing.JFrame implements Runnable{
                 }
             }
             if(!bandera){
-            this.users.add(new User(Integer.parseInt(id_temp[0]),id_temp[1]));
+            this.users.add(new User(Integer.parseInt(id_temp[0]),id_temp[1],new Texto()));
             agregarValores(id_temp[1]);
             }
             }
             }
+    }
+    
+    public void cambiarChar(String username){
+        
+        for(User item: users){
+            if(item.getUsername().toUpperCase().equals(username.toUpperCase())){
+                 
+            item.jpanel.setSize(400,300);
+            item.jpanel.setVisible(true);
+             item.jpanel.setLocation(5,5);
+        
+            this.mainPanel.removeAll();
+            this.mainPanel.add(item.jpanel,BorderLayout.CENTER);
+            this.mainPanel.revalidate();
+            this.mainPanel.repaint();
+            }
+        }
     }
 
     
@@ -209,18 +226,15 @@ public class Index extends javax.swing.JFrame implements Runnable{
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelEntry, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -264,7 +278,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
                 .addGap(20, 20, 20)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -292,15 +306,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
     }//GEN-LAST:event_btnsendMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Texto txt=new Texto();
-        txt.setSize(400,300);
-        txt.setVisible(true);
-        txt.setLocation(5,5);
-        
-        this.mainPanel.removeAll();
-        this.mainPanel.add(txt,BorderLayout.CENTER);
-        this.mainPanel.revalidate();
-        this.mainPanel.repaint();
+       
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -308,8 +314,8 @@ public class Index extends javax.swing.JFrame implements Runnable{
         
         this.listUsers.getSelectedIndex();
         System.out.println(this.listUsers.getSelectedValue());
-      
-        
+        cambiarChar(this.listUsers.getSelectedValue().trim());
+              
     }//GEN-LAST:event_listUsersMouseClicked
 
     /**

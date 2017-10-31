@@ -5,6 +5,8 @@
  */
 package models;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author User
@@ -13,12 +15,24 @@ public class User {
     
     private int id;
     private String username;
+    public JPanel jpanel;
 
-    public User(int id, String username) {
+    public User(int id, String username,JPanel jPanel) {
         this.id = id;
         this.username = username;
+        this.jpanel=jPanel;
     }
 
+    public JPanel getJpanel() {
+        return jpanel;
+    }
+
+    public void setJpanel(JPanel jpanel) {
+        this.jpanel = jpanel;
+    }
+
+    
+    
     /**
      * @return the id
      */
