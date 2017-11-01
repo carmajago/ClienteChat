@@ -8,10 +8,7 @@ package models;
 import javax.swing.JPanel;
 import views.Texto;
 
-/**
- *
- * @author User
- */
+
 public class User {
     
     private int id;

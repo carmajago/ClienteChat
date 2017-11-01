@@ -9,8 +9,11 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Label;
+import javafx.scene.paint.Color;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
+import sun.awt.image.PixelConverter;
 
 /**
  *
@@ -29,14 +32,16 @@ public class Texto extends javax.swing.JPanel {
           grid=new GridLayout(0, 2, 2, 2);
         
         jPanel1.setLayout(grid);
-       
-                
-       
+
     }
     
     public void agregarRecibido(String texto){
          this.jPanel1.add(new JLabel(""));
-        this.jPanel1.add(new JLabel(texto));
+         JButton temp=new JButton(texto);
+         
+        
+         temp.setBackground(java.awt.Color.red);
+        this.jPanel1.add(temp);
        
         this.grid.setRows(this.grid.getRows()+1);
         this.jPanel1.revalidate();
@@ -45,8 +50,10 @@ public class Texto extends javax.swing.JPanel {
     }
     public void AgregarEnviado(String texto){
          
-       
-        this.jPanel1.add(new JLabel(texto));
+       JButton temp=new JButton(texto);
+       temp.setSize(100,20);
+       temp.setBorder(null);
+        this.jPanel1.add(temp);
          this.jPanel1.add(new JLabel(""));
  this.grid.setRows(this.grid.getRows()+1);
         this.jPanel1.revalidate();
