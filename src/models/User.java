@@ -5,6 +5,8 @@
  */
 package models;
 
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JPanel;
 import views.Texto;
 
@@ -15,10 +17,13 @@ public class User {
     private String username;
     public Texto jpanel;
 
+    LinkedList<Mensaje> mensajes;
+    
     public User(int id, String username,Texto jPanel) {
         this.id = id;
         this.username = username;
         this.jpanel=jPanel;
+        mensajes=new LinkedList<Mensaje>();
     }
 
     public JPanel getJpanel() {
@@ -29,7 +34,14 @@ public class User {
         this.jpanel = jpanel;
     }
 
-    
+    public LinkedList<Mensaje> getMensajes() {
+        return mensajes;
+    }
+
+    public void addMensaje(Mensaje m){
+       
+        mensajes.add(m);
+    }
     
     /**
      * @return the id

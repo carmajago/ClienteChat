@@ -29,17 +29,18 @@ public class Texto extends javax.swing.JPanel {
     public Texto() {
         initComponents();
          
-          grid=new GridLayout(0, 2, 2, 2);
-        
+          grid=new GridLayout(0, 2, 5, 5);
+        grid.minimumLayoutSize(this);
         jPanel1.setLayout(grid);
 
     }
     
     public void agregarRecibido(String texto){
          this.jPanel1.add(new JLabel(""));
-         JButton temp=new JButton(texto);
-         
-        
+         JLabel temp=new JLabel(texto);
+             
+            temp.setOpaque(true);
+        temp.setSize(100, 100);
          temp.setBackground(java.awt.Color.red);
         this.jPanel1.add(temp);
        
@@ -48,10 +49,11 @@ public class Texto extends javax.swing.JPanel {
         this.jPanel1.repaint();
      
     }
+    
     public void AgregarEnviado(String texto){
          
        JButton temp=new JButton(texto);
-       temp.setSize(100,20);
+       
        temp.setBorder(null);
         this.jPanel1.add(temp);
          this.jPanel1.add(new JLabel(""));
@@ -88,7 +90,7 @@ public class Texto extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(51, 255, 204));
         jPanel1.setMaximumSize(new java.awt.Dimension(253, 32767));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
         jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

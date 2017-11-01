@@ -5,13 +5,19 @@
  */
 package views;
 
+import com.sun.management.jmx.Trace;
 import java.awt.BorderLayout;
 import java.awt.List;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
+import java.util.Optional;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.Border;
 import models.HiloUsers;
 import models.ListRender;
+import models.Mensaje;
 import models.Respuestas;
 import models.SocketController;
 import models.User;
@@ -35,7 +41,8 @@ public class Index extends javax.swing.JFrame implements Runnable{
         modelolista=new DefaultListModel(); 
         this.listUsers.setModel(modelolista);
         this.listUsers.setCellRenderer(new ListRender());
- 
+        Border emptyBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
+        this.listUsers.setBorder(emptyBorder);
     }
     
     
@@ -99,9 +106,9 @@ public class Index extends javax.swing.JFrame implements Runnable{
         for(User item: users){
             if(item.getUsername().toUpperCase().equals(username.toUpperCase())){
                  
-            item.jpanel.setSize(400,300);
+            item.jpanel.setSize(this.mainPanel.getWidth(),this.mainPanel.getHeight());
             item.jpanel.setVisible(true);
-             item.jpanel.setLocation(5,5);
+             item.jpanel.setLocation(0,0);
         
             this.mainPanel.removeAll();
             this.mainPanel.add(item.jpanel);
@@ -110,7 +117,28 @@ public class Index extends javax.swing.JFrame implements Runnable{
             }
         }
     }
-
+    public void send(){
+        
+         String salida=this.entrydata.getText();
+        if(!salida.equals("")){
+        
+             
+             
+             //temporal-----------------------------------
+           this.listUsers.getSelectedIndex();
+            
+            for (User item:users) {
+            if(item.getUsername().toUpperCase().equals(this.listUsers.getSelectedValue().trim().toUpperCase())){
+               
+                this.socket.WriteText("send "+item.getUsername()+" "+salida);
+                item.jpanel.agregarRecibido(salida);
+                
+            }
+                }
+           
+            this.entrydata.setText("");
+        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -132,11 +160,10 @@ public class Index extends javax.swing.JFrame implements Runnable{
         entrydata = new javax.swing.JTextField();
         btnsend = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        userActivo = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
 
         jLabel1.setText("jLabel1");
 
@@ -146,6 +173,10 @@ public class Index extends javax.swing.JFrame implements Runnable{
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        listUsers.setAlignmentX(0.0F);
+        listUsers.setAlignmentY(0.0F);
+        listUsers.setCellRenderer(null);
+        listUsers.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         listUsers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 listUsersMouseClicked(evt);
@@ -154,6 +185,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
         jScrollPane1.setViewportView(listUsers);
 
         jPanel2.setBackground(new java.awt.Color(97, 152, 190));
+        jPanel2.setAlignmentX(0.0F);
         jPanel2.setLayout(null);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/emoticon.png"))); // NOI18N
@@ -163,6 +195,11 @@ public class Index extends javax.swing.JFrame implements Runnable{
         entrydata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 entrydataActionPerformed(evt);
+            }
+        });
+        entrydata.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                entrydataKeyPressed(evt);
             }
         });
 
@@ -178,69 +215,50 @@ public class Index extends javax.swing.JFrame implements Runnable{
         panelEntryLayout.setHorizontalGroup(
             panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEntryLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addGap(4, 4, 4)
                 .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(entrydata, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(entrydata)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnsend))
+                .addComponent(btnsend)
+                .addContainerGap())
         );
         panelEntryLayout.setVerticalGroup(
-            panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(btnsend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEntryLayout.createSequentialGroup()
-                .addGroup(panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(entrydata)
-                    .addGroup(panelEntryLayout.createSequentialGroup()
-                        .addGap(0, 11, Short.MAX_VALUE)
-                        .addComponent(jLabel5)))
-                .addContainerGap())
+            panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEntryLayout.createSequentialGroup()
+                .addGroup(panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnsend)
+                    .addComponent(jLabel5)
+                    .addComponent(entrydata, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
         );
 
         jPanel2.add(panelEntry);
-        panelEntry.setBounds(0, 457, 326, 54);
+        panelEntry.setBounds(0, 496, 400, 60);
 
-        jPanel5.setBackground(new java.awt.Color(255, 102, 0));
-
-        jLabel8.setText("REmitente");
-
-        jButton2.setBackground(new java.awt.Color(255, 153, 0));
-        jButton2.setText("jButton2");
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton2.setDefaultCapable(false);
-        jButton2.setFocusPainted(false);
-        jButton2.setFocusable(false);
-        jButton2.setRequestFocusEnabled(false);
-        jButton2.setRolloverEnabled(false);
-        jButton2.setVerifyInputWhenFocusTarget(false);
+        jPanel5.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
+                .addComponent(userActivo)
+                .addContainerGap(369, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(0, 20, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(userActivo, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .addGap(22, 22, 22))
         );
 
         jPanel2.add(jPanel5);
-        jPanel5.setBounds(0, 0, 326, 56);
+        jPanel5.setBounds(0, 0, 400, 60);
+
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -250,11 +268,11 @@ public class Index extends javax.swing.JFrame implements Runnable{
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGap(0, 450, Short.MAX_VALUE)
         );
 
         jPanel2.add(mainPanel);
-        mainPanel.setBounds(0, 50, 330, 410);
+        mainPanel.setBounds(0, 50, 400, 450);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -267,45 +285,47 @@ public class Index extends javax.swing.JFrame implements Runnable{
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 234, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 62, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,42 +341,50 @@ public class Index extends javax.swing.JFrame implements Runnable{
 
     private void btnsendMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnsendMouseClicked
         
-     this.socket.WriteText(this.entrydata.getText());
-             
-             
-             //temporal-----------------------------------
-           this.listUsers.getSelectedIndex();
-            
-            for (User item:users) {
-            if(item.getUsername().toUpperCase().equals(this.listUsers.getSelectedValue().trim().toUpperCase())){
-                
-                item.jpanel.agregarRecibido(this.entrydata.getText());
-            }
-                }
-           
+        send();
+    
     }//GEN-LAST:event_btnsendMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            this.listUsers.getSelectedIndex();
-            
-            for (User item:users) {
-            if(item.getUsername().toUpperCase().equals(this.listUsers.getSelectedValue().trim().toUpperCase())){
-                
-                item.jpanel.AgregarEnviado(this.entrydata.getText());
-            }
-                }
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void listUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listUsersMouseClicked
         
         this.listUsers.getSelectedIndex();
-        System.out.println(this.listUsers.getSelectedValue());
+        this.userActivo.setText(this.listUsers.getSelectedValue());
         cambiarChar(this.listUsers.getSelectedValue().trim());
               
     }//GEN-LAST:event_listUsersMouseClicked
 
+    private void entrydataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_entrydataKeyPressed
+        
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            send();
+        }
+    }//GEN-LAST:event_entrydataKeyPressed
+
+    public void mensajeNuevo(String id,String mensaje){
+        
+        User temp=buscarUser(Integer.parseInt(id.substring(0,3)));
+        System.out.println(Integer.parseInt(id.substring(0,3)));
+        if(temp!=null){
+            System.out.println("mas interno");
+            temp.addMensaje(new Mensaje(id,mensaje));
+            temp.jpanel.AgregarEnviado(mensaje);
+        }
+        
+    }
+    
+    public User buscarUser(int id){
+        
+        for(User item: users){
+            System.out.println(item.getId()+"......"+id);
+            if(item.getId()==id){
+                
+                return item;
+                
+            }
+        }
+        return null;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -395,20 +423,19 @@ public class Index extends javax.swing.JFrame implements Runnable{
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnsend;
     private javax.swing.JTextField entrydata;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> listUsers;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel panelEntry;
+    private javax.swing.JLabel userActivo;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -416,14 +443,22 @@ public class Index extends javax.swing.JFrame implements Runnable{
  
     while(true){
         String llegada=socket.ReadText();
-        System.out.println(llegada);
+        String temp[]=llegada.split(" ");
+      
+        if(temp.length>1 && temp[0].length()==17){
+           
+            mensajeNuevo(temp[0],llegada.substring(18));
+                        
+        }else{
+        
         String response=llegada.substring(0,3);
         
         if(Respuestas.geUsers(response)){
             addUserList(llegada.substring(4));
+        }else
+            System.out.println(llegada);
+        
         }
-        
-        
     }
     }
 }
