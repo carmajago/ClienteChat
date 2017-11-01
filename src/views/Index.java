@@ -10,6 +10,7 @@ import java.awt.List;
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.ListCellRenderer;
+import models.HiloUsers;
 import models.ListRender;
 import models.Respuestas;
 import models.SocketController;
@@ -57,6 +58,10 @@ public class Index extends javax.swing.JFrame implements Runnable{
         this.socket = socket;
         this.hilo=new Thread(this);
         this.hilo.start();
+        HiloUsers hilouser=new HiloUsers(socket);
+        Thread hilo2=new Thread(hilouser);
+        hilo2.start();
+        
     }
 
     public String getMyuser() {
@@ -99,7 +104,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
              item.jpanel.setLocation(5,5);
         
             this.mainPanel.removeAll();
-            this.mainPanel.add(item.jpanel,BorderLayout.CENTER);
+            this.mainPanel.add(item.jpanel);
             this.mainPanel.revalidate();
             this.mainPanel.repaint();
             }
@@ -213,11 +218,11 @@ public class Index extends javax.swing.JFrame implements Runnable{
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 307, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 354, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -233,7 +238,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEntry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -278,7 +283,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
                 .addGap(20, 20, 20)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
+                .addComponent(jScrollPane1))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -304,9 +309,15 @@ public class Index extends javax.swing.JFrame implements Runnable{
      this.socket.WriteText(this.entrydata.getText());
              
              
-             //temporal
-          this.listUsers.getSelectedIndex();
+             //temporal-----------------------------------
+           this.listUsers.getSelectedIndex();
             
+            for (User item:users) {
+            if(item.getUsername().toUpperCase().equals(this.listUsers.getSelectedValue().trim().toUpperCase())){
+                
+                item.jpanel.agregarRecibido(this.entrydata.getText());
+            }
+                }
            
     }//GEN-LAST:event_btnsendMouseClicked
 
@@ -315,8 +326,8 @@ public class Index extends javax.swing.JFrame implements Runnable{
             
             for (User item:users) {
             if(item.getUsername().toUpperCase().equals(this.listUsers.getSelectedValue().trim().toUpperCase())){
-                System.out.println("entra");
-                item.jpanel.agregarTexto(this.entrydata.getText());
+                
+                item.jpanel.AgregarEnviado(this.entrydata.getText());
             }
                 }
         

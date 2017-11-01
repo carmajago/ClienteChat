@@ -5,9 +5,12 @@
  */
 package views;
 
+import java.awt.BorderLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Label;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 /**
  *
@@ -16,40 +19,38 @@ import javax.swing.JButton;
 public class Texto extends javax.swing.JPanel {
 
     
-    private JButton BtnOne = new JButton("BtnOne");
-     private JButton BtnTwo = new JButton("BtnTwo");
-     private JButton BtnThree = new JButton("BtnThree");
-     private JButton BtnFour = new JButton("BtnFour");
-     private JButton BtnFive = new JButton("BtnFive");
-     private GridLayout layout = new GridLayout(3,2);
+
     
     int contador;
+    GridLayout grid;
     public Texto() {
         initComponents();
-        contador=10;
-     
-     /*this.mainpanel.add(BtnOne);
-           this.mainpanel.add(BtnTwo);
-           this.mainpanel.add(BtnThree);
-           this.mainpanel.add(BtnFour);
-           this.mainpanel.add(BtnFive);
-           
-      */  
+         
+          grid=new GridLayout(0, 2, 2, 2);
+        
+        jPanel1.setLayout(grid);
+       
+                
+       
     }
     
-    public void agregarTexto(String texto){
-        Label lbl=new Label(texto);
-        lbl.setLocation(10,contador);
-        
-        this.mainPanel.add(lbl);
-        contador+=50;
-        this.mainPanel.revalidate();
-        this.mainPanel.repaint();
+    public void agregarRecibido(String texto){
+         this.jPanel1.add(new JLabel(""));
+        this.jPanel1.add(new JLabel(texto));
+       
+        this.grid.setRows(this.grid.getRows()+1);
+        this.jPanel1.revalidate();
+        this.jPanel1.repaint();
+     
     }
-    public void AgregarRecibido(String texto){
-         Label lbl=new Label(texto);
-        
-        
+    public void AgregarEnviado(String texto){
+         
+       
+        this.jPanel1.add(new JLabel(texto));
+         this.jPanel1.add(new JLabel(""));
+ this.grid.setRows(this.grid.getRows()+1);
+        this.jPanel1.revalidate();
+        this.jPanel1.repaint();
         
     }
     
@@ -66,57 +67,53 @@ public class Texto extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
-        mainPanel = new javax.swing.JPanel();
 
         jLabel1.setText("jLabel1");
 
         setBackground(new java.awt.Color(210, 200, 250));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
-        mainPanel.setBackground(new java.awt.Color(153, 255, 153));
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 328, Short.MAX_VALUE)
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 19, Short.MAX_VALUE))
-        );
-
+        jPanel1.setBackground(new java.awt.Color(51, 255, 204));
+        jPanel1.setMaximumSize(new java.awt.Dimension(253, 32767));
+        jPanel1.setLayout(new java.awt.GridLayout());
         jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 314, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        
+        JLabel lbl=new JLabel("carlos mario");
+        
+       
+        
+        this.revalidate();
+        this.repaint();
+    }//GEN-LAST:event_formMouseClicked
+
+  
+
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 }
