@@ -53,6 +53,9 @@ public class UserView extends javax.swing.JPanel {
     public void Desactivar(){
         this.setBackground(Color.white);
     }
+    public void setunserText(String user){
+        this.lblUser.setText(user);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,6 +73,7 @@ public class UserView extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -129,6 +133,8 @@ public class UserView extends javax.swing.JPanel {
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
       
         this.index.toogleListUserView(this);
+        this.index.cambiarChat(user);
+        
     }//GEN-LAST:event_formMouseClicked
 
 

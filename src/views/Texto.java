@@ -6,9 +6,12 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import javafx.scene.paint.Color;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -23,84 +26,96 @@ import sun.awt.image.PixelConverter;
  */
 public class Texto extends javax.swing.JPanel {
 
-    
-
-    
     int contador;
     GridLayout grid;
+
     public Texto() {
         initComponents();
-         
-       contador=10;
+
+        contador = 10;
+        this.setOpaque(false);
+        
+        this.setBackground(new java.awt.Color(255, 255, 255, 0));
 
     }
-    
-    
-        public void AgregarEntrante(String texto){
-        
-      
-      
-         int tama=(texto.length()/35)+1;
-      
-         JPanel temp=new JPanel();
-           temp.setSize(200,tama*22);
-          temp.setLocation(10,contador);
-          temp.setBackground(java.awt.Color.red);
-          JEditorPane ed1= new JEditorPane();
-          contador+=tama *22 +10;
-         temp.add(ed1);
-         ed1.setLocation(0, 0);
-         ed1.setSize(temp.getWidth(),temp.getHeight());
-         ed1.setText(texto);
-        
-         temp.revalidate();
-         temp.repaint();
-        // temp.setOpaque(true);
-        
-      //   temp.setBackground(java.awt.Color.red);
-        this.jPanel1.add(temp);
-       
-       
-        this.jPanel1.revalidate();
-        this.jPanel1.repaint();
-        
-    }
-    
-        
-    public void AgregarSaliente(String texto){
-        
-      
-      
-         int tama=(texto.length()/35)+1;
-      
-         JPanel temp=new JPanel();
-           temp.setSize(200,tama*22);
-          temp.setLocation(150,contador);
-          temp.setBackground(java.awt.Color.blue);
-          JEditorPane ed1= new JEditorPane();
-          contador+=tama *22 +10;
-         temp.add(ed1);
-         ed1.setLocation(0, 0);
-         ed1.setSize(temp.getWidth(),temp.getHeight());
-         ed1.setText(texto);
-       
-         
-         temp.revalidate();
-         temp.repaint();
-        // temp.setOpaque(true);
-        
-      //   temp.setBackground(java.awt.Color.red);
-        this.jPanel1.add(temp);
-       
-       
-        this.jPanel1.revalidate();
-        this.jPanel1.repaint();
-        
-    }
-    
-    
 
-    
+    public MensajeView AgregarEntrante(String texto,String id) {
+
+        int tama = (texto.length() / 35) + 1;
+
+        MensajeView temp = new MensajeView();
+        temp.setId(id);
+        temp.setSize(200, tama * 22);
+        temp.setLocation(10, contador);
+        // temp.setBackground(java.awt.Color.red);
+        // JEditorPane ed1= new JEditorPane();
+        contador += tama * 22 + 10;
+        if(contador>jPanel1.getHeight()){
+            jPanel1.setSize(getWidth(), contador);
+            revalidate();
+            repaint();
+            System.out.println("mierdaaa");
+        }
+        // temp.add(ed1);
+        //   ed1.setLocation(0, 0);
+        /////  ed1.setSize(temp.getWidth(),temp.getHeight());
+        temp.setBackground(java.awt.Color.white);
+        temp.setMensaje(texto);
+        temp.setSizeText(190, tama * 22);
+        temp.SetTrash();
+        temp.revalidate();
+        temp.repaint();
+        // temp.setOpaque(true);
+
+        //   temp.setBackground(java.awt.Color.red);
+        this.jPanel1.add(temp, 0);
+
+        this.jPanel1.revalidate();
+        this.jPanel1.repaint();
+        return temp;
+    }
+
+    public MensajeView AgregarSaliente(String texto,String id) {
+
+        int tama = (texto.length() / 35) + 1;
+
+        MensajeView temp = new MensajeView();
+        temp.setSize(215, tama * 22);
+        temp.setLocation(150, contador);
+       temp.setId(id);
+
+//          JEditorPane ed1= new JEditorPane();
+        contador += tama * 22 + 10;
+         if(contador>jPanel1.getHeight()){
+            jPanel1.setPreferredSize(new Dimension(jPanel1.getWidth(), contador));
+          
+            System.out.println("plis");
+             this.jPanel1.revalidate();
+            this.jLabel1.repaint();
+           
+             jScrollPane2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+        public void adjustmentValueChanged(AdjustmentEvent e) {  
+            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+        }
+    });
+        }
+//         temp.add(ed1);
+//         ed1.setLocation(0, 0);
+//         ed1.setSize(temp.getWidth(),temp.getHeight());
+//         ed1.setText(texto);
+        temp.setMensaje(texto);
+
+        temp.revalidate();
+        temp.repaint();
+        // temp.setOpaque(true);
+
+        //   temp.setBackground(java.awt.Color.red);
+        this.jPanel1.add(temp, 0);
+
+        this.jPanel1.revalidate();
+        this.jPanel1.repaint();
+     return temp;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,66 +127,64 @@ public class Texto extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
 
         jLabel1.setText("jLabel1");
 
         setBackground(new java.awt.Color(210, 200, 250));
+        setPreferredSize(new java.awt.Dimension(402, 500));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
             }
         });
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setAutoscrolls(true);
 
-        jPanel1.setBackground(new java.awt.Color(51, 255, 204));
-        jPanel1.setMaximumSize(new java.awt.Dimension(253, 32767));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 400));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 312, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+            .addGap(0, 451, Short.MAX_VALUE)
         );
 
-        jScrollPane1.setViewportView(jPanel1);
+        jScrollPane2.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        
-        JLabel lbl=new JLabel("carlos mario");
-        
-       
-        
+
+        JLabel lbl = new JLabel("carlos mario");
+
         this.revalidate();
         this.repaint();
     }//GEN-LAST:event_formMouseClicked
 
-  
-
-    
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

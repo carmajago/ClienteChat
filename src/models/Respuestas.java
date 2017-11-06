@@ -83,11 +83,23 @@ public class   Respuestas {
         
         return false;
     }
+    public static boolean numerouser(String data){
+     if(data.equals(NUM_USERS))  
+         return true;
+     
+     return false;
+    }
     
     public static boolean geUsers(String data){
         if(data.equals(GET_USERS))
             return true;
         
+        return false;
+    }
+    public static boolean isMsg(String data){
+        if(data.equals(MENSAJE_ENVIADO) || data.equals(MENSAJE_BROADCAST)){
+            return true;
+        }
         return false;
     }
     

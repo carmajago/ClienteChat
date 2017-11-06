@@ -27,6 +27,7 @@ public class HiloUsers implements Runnable{
         while(true){
             try {
                 socket.WriteText("getusers");
+                socket.WriteText("numofusers");
                 Thread.sleep(2000);
                 
                 

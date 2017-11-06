@@ -8,6 +8,7 @@ package models;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
+import views.MensajeView;
 import views.Texto;
 
 
@@ -17,15 +18,17 @@ public class User {
     private String username;
     public Texto jpanel;
 
-    LinkedList<Mensaje> mensajes;
+    LinkedList<MensajeView> mensajes;
     
     public User(int id, String username,Texto jPanel) {
         this.id = id;
         this.username = username;
         this.jpanel=jPanel;
-        mensajes=new LinkedList<Mensaje>();
+        mensajes=new LinkedList<MensajeView>();
     }
+        
 
+    
     public JPanel getJpanel() {
         return jpanel;
     }
@@ -34,11 +37,11 @@ public class User {
         this.jpanel = jpanel;
     }
 
-    public LinkedList<Mensaje> getMensajes() {
+    public LinkedList<MensajeView> getMensajes() {
         return mensajes;
     }
 
-    public void addMensaje(Mensaje m){
+    public void addMensaje(MensajeView m){
        
         mensajes.add(m);
     }
@@ -48,6 +51,15 @@ public class User {
      */
     public int getId() {
         return id;
+    }
+    public void eliminarMsg(String id){
+        
+        for(MensajeView item: mensajes){
+            if(item.getId().equals(id)){
+                item.eliminarMsg();
+                System.out.println("Mensaje encontrado");
+            }
+        }
     }
 
     /**
