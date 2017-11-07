@@ -19,27 +19,29 @@ import java.util.logging.Logger;
  */
 public class SocketController {
     
-    int port;
+    String port;
     String host;
     private Socket thesocket = null;
     private PrintWriter out = null;
     private BufferedReader in = null;
 
-    public SocketController(int port, String host) {
-        this.port = port;
+    public SocketController(String port, String host) {
+        this.port = port.trim();
         this.host = host;
         
     }
     
-       public void Open() {    
+       public boolean Open() {    
         try {
-            this.thesocket = new Socket(this.host, this.port);
+            this.thesocket = new Socket(this.host, Integer.parseInt(this.port));
             this.out = new PrintWriter(this.thesocket.getOutputStream(), true);
             this.in = new BufferedReader(new InputStreamReader(
                     this.thesocket.getInputStream(), "UTF-8"));
         } catch (IOException ex) {
-            Logger.getLogger(SocketController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error de conexion");
+            return false;
         }
+        return true;
     }
 
     public void Close() {

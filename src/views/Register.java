@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.Color;
 import javax.swing.ImageIcon;
 import models.Respuestas;
 
@@ -11,19 +12,30 @@ import models.SocketController;
  */
 public class Register extends javax.swing.JFrame {
 
-    int port = 30000;
+    String port = "30000";
     String host = "127.0.0.1";
     SocketController socket;
 
     public Register() {
         initComponents();
-
+        setResizable(false);
         setIconImage(new ImageIcon(getClass().getResource("../Images/icono.png")).getImage());
 
         socket = new SocketController(port, host);
 
-        socket.Open();
-        System.out.println(this.socket.ReadText());
+        this.panelConfig.setVisible(false);
+        this.inputHost.setText(host);
+
+        this.inputPort.setText(port);
+        if (socket.Open()) {
+            
+            this.msgErrors.setForeground(new Color(0, 153, 102));
+            this.msgErrors.setText(this.socket.ReadText());
+        } else {
+            this.msgErrors.setForeground(new Color(255, 0, 0));
+            this.msgErrors.setText("Error al conectar con el servidor");
+
+        }
     }
 
     /**
@@ -42,22 +54,32 @@ public class Register extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         msgErrors = new javax.swing.JLabel();
+        panelConfig = new javax.swing.JPanel();
+        inputHost = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
+        inputPort = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(79, 102, 141));
+        jPanel1.setBackground(new java.awt.Color(168, 182, 219));
 
-        input_register.setBackground(new java.awt.Color(79, 102, 141));
-        input_register.setFont(new java.awt.Font("Leelawadee UI", 0, 14)); // NOI18N
-        input_register.setForeground(new java.awt.Color(175, 198, 215));
+        input_register.setBackground(new java.awt.Color(168, 182, 219));
+        input_register.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        input_register.setForeground(new java.awt.Color(37, 53, 91));
         input_register.setBorder(null);
 
-        jButton1.setBackground(new java.awt.Color(175, 198, 215));
-        jButton1.setFont(new java.awt.Font("Leelawadee UI", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(175, 198, 215));
+        jButton1.setBackground(new java.awt.Color(37, 53, 91));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(37, 53, 91));
         jButton1.setText("Registrarse");
         jButton1.setBorder(null);
         jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -65,27 +87,102 @@ public class Register extends javax.swing.JFrame {
         });
 
         jLabel1.setBackground(new java.awt.Color(175, 198, 215));
-        jLabel1.setFont(new java.awt.Font("Leelawadee UI Semilight", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(175, 198, 215));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(37, 53, 91));
         jLabel1.setText("Chat ");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/if_user_285655 (1).png"))); // NOI18N
 
+        msgErrors.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         msgErrors.setForeground(new java.awt.Color(255, 0, 0));
+
+        panelConfig.setBackground(new java.awt.Color(129, 140, 168));
+        panelConfig.setBorder(new javax.swing.border.MatteBorder(null));
+
+        inputHost.setBackground(new java.awt.Color(129, 140, 168));
+        inputHost.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        inputHost.setText("i");
+        inputHost.setBorder(null);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(240, 240, 240));
+        jLabel3.setText("Host");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel4.setText("Puerto");
+
+        inputPort.setBackground(new java.awt.Color(129, 140, 168));
+        inputPort.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        inputPort.setBorder(null);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setText("Conectar");
+        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelConfigLayout = new javax.swing.GroupLayout(panelConfig);
+        panelConfig.setLayout(panelConfigLayout);
+        panelConfigLayout.setHorizontalGroup(
+            panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelConfigLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5))
+                    .addGroup(panelConfigLayout.createSequentialGroup()
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelConfigLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(14, 14, 14))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(inputHost, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSeparator2)
+                            .addComponent(jSeparator3)
+                            .addComponent(inputPort, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(89, 89, 89))
+        );
+        panelConfigLayout.setVerticalGroup(
+            panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inputHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(inputPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addContainerGap())
+        );
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Conectar");
+        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(74, 74, 74)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -94,15 +191,30 @@ public class Register extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(input_register, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(msgErrors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 78, Short.MAX_VALUE))
+                    .addComponent(msgErrors, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(0, 79, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(94, 94, 94)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(144, 144, 144))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addComponent(jLabel6)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(panelConfig, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(input_register, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -112,7 +224,7 @@ public class Register extends javax.swing.JFrame {
                 .addComponent(msgErrors, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(82, 82, 82))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -131,13 +243,13 @@ public class Register extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        this.socket.WriteText("register " +this.input_register.getText());
+        this.socket.WriteText("register " + this.input_register.getText());
 
         String respuesta = this.socket.ReadText();
 
-        String res =respuesta.substring(0,3);
+        String res = respuesta.substring(0, 3);
         String salida = Respuestas.GetRespuesta(res);
-
+         this.msgErrors.setForeground(new Color(255,0,0));
         this.msgErrors.setText(salida);
 
         if (Respuestas.Register(res)) {
@@ -152,6 +264,26 @@ public class Register extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        this.panelConfig.setVisible(true);
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+
+        socket = new SocketController(this.inputPort.getText(), this.inputHost.getText());
+
+        if (socket.Open()) {
+
+            this.panelConfig.setVisible(false);
+            this.msgErrors.setForeground(new Color(0, 153, 102));
+            this.msgErrors.setText(this.socket.ReadText());
+        } else {
+            this.msgErrors.setForeground(new Color(255, 0, 0));
+            this.msgErrors.setText("Error al conectar con el servidor");
+        }
+
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     /**
      * @param args the command line arguments
@@ -189,12 +321,21 @@ public class Register extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField inputHost;
+    private javax.swing.JTextField inputPort;
     private javax.swing.JTextField input_register;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel msgErrors;
+    private javax.swing.JPanel panelConfig;
     // End of variables declaration//GEN-END:variables
 }

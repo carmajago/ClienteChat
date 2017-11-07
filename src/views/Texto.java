@@ -6,17 +6,24 @@
 package views;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Label;
+import java.awt.Rectangle;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import javafx.scene.paint.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 import sun.awt.image.PixelConverter;
 
@@ -31,12 +38,52 @@ public class Texto extends javax.swing.JPanel {
 
     public Texto() {
         initComponents();
-
+        JLabel  back=new JLabel();
+        back.setLocation(0,0);
+         Image imagen=new ImageIcon(getClass().getResource("../Images/wp.jpg")).getImage();
+         back.setSize(500,500);
+        back.setIcon(new ImageIcon(imagen));
+        
         contador = 10;
         this.setOpaque(false);
+        this.add(back);
+        this.jPanel1.setBackground(new java.awt.Color(255, 255, 255, 0));
+        this.jScrollPane2.setBackground(new java.awt.Color(255, 255, 255, 0));
         
-        this.setBackground(new java.awt.Color(255, 255, 255, 0));
+         this.jScrollPane2.setComponentZOrder(this.jScrollPane2.getVerticalScrollBar(), 0);
+    this.jScrollPane2.setComponentZOrder(this.jScrollPane2.getViewport(), 1);
+    this.jScrollPane2.getVerticalScrollBar().setOpaque(false);
+    this.jScrollPane2.setLayout(new ScrollPaneLayout() {
+      @Override
+      public void layoutContainer(Container parent) {
+        JScrollPane scrollPane = (JScrollPane) parent;
 
+        Rectangle availR = scrollPane.getBounds();
+        availR.x = availR.y = 0;
+
+        Insets parentInsets = parent.getInsets();
+        availR.x = parentInsets.left;
+        availR.y = parentInsets.top;
+        availR.width -= parentInsets.left + parentInsets.right;
+        availR.height -= parentInsets.top + parentInsets.bottom;
+
+        Rectangle vsbR = new Rectangle();
+        vsbR.width = 12;
+        vsbR.height = availR.height;
+        vsbR.x = availR.x + availR.width - vsbR.width;
+        vsbR.y = availR.y;
+
+        if (viewport != null) {
+          viewport.setBounds(availR);
+        }
+        if (vsb != null) {
+          vsb.setVisible(true);
+          vsb.setBounds(vsbR);
+        }
+      }
+    });
+        jScrollPane2.getVerticalScrollBar().setUI(new MyScrollBarUI());
+        
     }
 
     public MensajeView AgregarEntrante(String texto,String id) {
@@ -144,7 +191,7 @@ public class Texto extends javax.swing.JPanel {
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setAutoscrolls(true);
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(400, 400));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 490));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,7 +201,7 @@ public class Texto extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 451, Short.MAX_VALUE)
+            .addGap(0, 490, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -167,9 +214,7 @@ public class Texto extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

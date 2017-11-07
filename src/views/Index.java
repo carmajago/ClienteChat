@@ -7,7 +7,10 @@ package views;
 
 import com.sun.management.jmx.Trace;
 import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Insets;
 import java.awt.List;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -15,10 +18,13 @@ import java.util.LinkedList;
 import java.util.Optional;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 import models.HiloUsers;
 import models.ListRender;
@@ -33,7 +39,7 @@ import models.User;
  */
 public class Index extends javax.swing.JFrame implements Runnable{
 
-    DefaultListModel modelolista;
+    
     SocketController socket;
     Thread hilo;
     LinkedList<User> users;
@@ -47,7 +53,9 @@ public class Index extends javax.swing.JFrame implements Runnable{
         listaUserView=new LinkedList<>();
         initComponents();
         users=new LinkedList<User>();
-        modelolista=new DefaultListModel(); 
+       
+        setIconImage(new ImageIcon(getClass().getResource("../Images/icono.png")).getImage());
+
         setSize(669, 575);
         setResizable(false);
         contador_users=0;
@@ -55,8 +63,39 @@ public class Index extends javax.swing.JFrame implements Runnable{
         this.users.add(new User(Integer.parseInt("000"),"",new Texto()));
         cerrar();
         
-//        JScrollBar sb = this.jScrollPane1.getVerticalScrollBar();
-//        sb.setUI(new MyScrollbarUI());
+         this.jScrollPane1.setComponentZOrder(this.jScrollPane1.getVerticalScrollBar(), 0);
+    this.jScrollPane1.setComponentZOrder(this.jScrollPane1.getViewport(), 1);
+    this.jScrollPane1.getVerticalScrollBar().setOpaque(false);
+    this.jScrollPane1.setLayout(new ScrollPaneLayout() {
+      @Override
+      public void layoutContainer(Container parent) {
+        JScrollPane scrollPane = (JScrollPane) parent;
+
+        Rectangle availR = scrollPane.getBounds();
+        availR.x = availR.y = 0;
+
+        Insets parentInsets = parent.getInsets();
+        availR.x = parentInsets.left;
+        availR.y = parentInsets.top;
+        availR.width -= parentInsets.left + parentInsets.right;
+        availR.height -= parentInsets.top + parentInsets.bottom;
+
+        Rectangle vsbR = new Rectangle();
+        vsbR.width = 12;
+        vsbR.height = availR.height;
+        vsbR.x = availR.x + availR.width - vsbR.width;
+        vsbR.y = availR.y;
+
+        if (viewport != null) {
+          viewport.setBounds(availR);
+        }
+        if (vsb != null) {
+          vsb.setVisible(true);
+          vsb.setBounds(vsbR);
+        }
+      }
+    });
+        jScrollPane1.getVerticalScrollBar().setUI(new MyScrollBarUI());
         
     }
     
@@ -224,6 +263,10 @@ public class Index extends javax.swing.JFrame implements Runnable{
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel3 = new javax.swing.JLabel();
+        numusers = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -234,11 +277,6 @@ public class Index extends javax.swing.JFrame implements Runnable{
         jPanel5 = new javax.swing.JPanel();
         Actual = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
-        numusers = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -249,12 +287,52 @@ public class Index extends javax.swing.JFrame implements Runnable{
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
 
+        jPanel6.setBackground(new java.awt.Color(37, 53, 91));
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(242, 242, 242));
+        jLabel3.setText("Username");
+
+        numusers.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        numusers.setForeground(new java.awt.Color(242, 242, 242));
+        numusers.setText("Usuarios activos:0");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(numusers))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(numusers)
+                .addGap(15, 15, 15))
+            .addComponent(jSeparator1)
+        );
+
+        jPanel1.add(jPanel6);
+        jPanel6.setBounds(0, 0, 280, 60);
+
         jScrollPane1.setBorder(null);
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setAlignmentX(0.0F);
         jScrollPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setPreferredSize(new java.awt.Dimension(273, 490));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -264,13 +342,13 @@ public class Index extends javax.swing.JFrame implements Runnable{
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 498, Short.MAX_VALUE)
+            .addGap(0, 490, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(jPanel4);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(0, 57, 275, 490);
+        jScrollPane1.setBounds(0, 67, 272, 480);
 
         jPanel2.setBackground(new java.awt.Color(97, 152, 190));
         jPanel2.setAlignmentX(0.0F);
@@ -325,9 +403,10 @@ public class Index extends javax.swing.JFrame implements Runnable{
         jPanel2.add(panelEntry);
         panelEntry.setBounds(0, 496, 400, 60);
 
-        jPanel5.setBackground(new java.awt.Color(242, 240, 240));
+        jPanel5.setBackground(new java.awt.Color(37, 53, 91));
 
         Actual.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        Actual.setForeground(new java.awt.Color(242, 242, 242));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -359,56 +438,14 @@ public class Index extends javax.swing.JFrame implements Runnable{
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addGap(0, 440, Short.MAX_VALUE)
         );
 
         jPanel2.add(mainPanel);
-        mainPanel.setBounds(0, 50, 390, 450);
+        mainPanel.setBounds(0, 60, 390, 440);
 
         jPanel1.add(jPanel2);
         jPanel2.setBounds(279, 0, 390, 554);
-
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Username");
-
-        numusers.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        numusers.setText("Usuarios activos:0");
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jSeparator2)
-                .addGap(31, 31, 31))
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(numusers))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(numusers))
-                    .addComponent(jSeparator1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel1.add(jPanel6);
-        jPanel6.setBounds(0, 0, 280, 60);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -528,7 +565,6 @@ public class Index extends javax.swing.JFrame implements Runnable{
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel numusers;
     private javax.swing.JPanel panelEntry;
