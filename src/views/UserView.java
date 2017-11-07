@@ -23,6 +23,7 @@ public class UserView extends javax.swing.JPanel {
   
     public UserView() {
         initComponents();
+        contadorMensajes=0;
     }
 
     public void setUser(String user) {
@@ -56,6 +57,10 @@ public class UserView extends javax.swing.JPanel {
     public void setunserText(String user){
         this.lblUser.setText(user);
     }
+    public void desconectar(){
+        this.lblUser.setText(user+"(Desconectado)");
+        this.lblUser.setForeground(Color.red);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -83,12 +88,10 @@ public class UserView extends javax.swing.JPanel {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/if_Sed-01_2236069.png"))); // NOI18N
 
         lblMensaje.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblMensaje.setText("Este es un mensaje de preuba as c casjbjascb ajcbj kjcsabkcjcas ksjc");
 
         lblNumero.setBackground(new java.awt.Color(255, 51, 51));
         lblNumero.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         lblNumero.setForeground(new java.awt.Color(255, 255, 255));
-        lblNumero.setText("150");
         lblNumero.setOpaque(true);
 
         lblUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -117,15 +120,15 @@ public class UserView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblNumero)
                             .addComponent(lblUser))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblMensaje))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -134,9 +137,17 @@ public class UserView extends javax.swing.JPanel {
       
         this.index.toogleListUserView(this);
         this.index.cambiarChat(user);
+        this.lblNumero.setText("");
+        this.contadorMensajes=0;
+        //this.lblNumero.setVisible(false);
         
     }//GEN-LAST:event_formMouseClicked
-
+     public void agregarMensaje(String mensaje){
+         //this.lblMensaje.setVisible(true);
+         this.lblMensaje.setText(mensaje);
+         this.contadorMensajes++;
+         this.lblNumero.setText(String.valueOf(contadorMensajes));
+     }          
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

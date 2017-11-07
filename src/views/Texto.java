@@ -39,17 +39,17 @@ public class Texto extends javax.swing.JPanel {
     public Texto() {
         initComponents();
         JLabel  back=new JLabel();
-        back.setLocation(0,0);
-         Image imagen=new ImageIcon(getClass().getResource("../Images/wp.jpg")).getImage();
-         back.setSize(500,500);
-        back.setIcon(new ImageIcon(imagen));
-        
+//        back.setLocation(0,0);
+//         Image imagen=new ImageIcon(getClass().getResource("../Images/wp.jpg")).getImage();
+//         back.setSize(500,500);
+//        back.setIcon(new ImageIcon(imagen));
+//        this.add(back);
         contador = 10;
         this.setOpaque(false);
-        this.add(back);
-        this.jPanel1.setBackground(new java.awt.Color(255, 255, 255, 0));
-        this.jScrollPane2.setBackground(new java.awt.Color(255, 255, 255, 0));
         
+       // this.jPanel1.setBackground(new java.awt.Color(255, 255, 255, 0));
+//        this.jScrollPane2.setBackground(new java.awt.Color(255, 255, 255, 0));
+//        
          this.jScrollPane2.setComponentZOrder(this.jScrollPane2.getVerticalScrollBar(), 0);
     this.jScrollPane2.setComponentZOrder(this.jScrollPane2.getViewport(), 1);
     this.jScrollPane2.getVerticalScrollBar().setOpaque(false);
@@ -98,10 +98,10 @@ public class Texto extends javax.swing.JPanel {
         // JEditorPane ed1= new JEditorPane();
         contador += tama * 22 + 10;
         if(contador>jPanel1.getHeight()){
-            jPanel1.setSize(getWidth(), contador);
-            revalidate();
-            repaint();
-            System.out.println("mierdaaa");
+              jPanel1.setPreferredSize(new Dimension(jPanel1.getWidth(), contador));
+          
+             this.jPanel1.revalidate();
+            this.jLabel1.repaint();
         }
         // temp.add(ed1);
         //   ed1.setLocation(0, 0);
@@ -136,15 +136,15 @@ public class Texto extends javax.swing.JPanel {
          if(contador>jPanel1.getHeight()){
             jPanel1.setPreferredSize(new Dimension(jPanel1.getWidth(), contador));
           
-            System.out.println("plis");
+            
              this.jPanel1.revalidate();
             this.jLabel1.repaint();
            
-             jScrollPane2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-        public void adjustmentValueChanged(AdjustmentEvent e) {  
-            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-        }
-    });
+//         jScrollPane2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+//        public void adjustmentValueChanged(AdjustmentEvent e) {  
+//            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+//        }
+//    });
         }
 //         temp.add(ed1);
 //         ed1.setLocation(0, 0);
@@ -190,8 +190,10 @@ public class Texto extends javax.swing.JPanel {
         jScrollPane2.setBorder(null);
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setAutoscrolls(true);
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(400, 440));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(400, 490));
+        jPanel1.setBackground(new java.awt.Color(168, 182, 219));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 437));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -201,7 +203,7 @@ public class Texto extends javax.swing.JPanel {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+            .addGap(0, 440, Short.MAX_VALUE)
         );
 
         jScrollPane2.setViewportView(jPanel1);
@@ -214,7 +216,7 @@ public class Texto extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

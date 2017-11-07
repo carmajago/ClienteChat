@@ -56,7 +56,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
        
         setIconImage(new ImageIcon(getClass().getResource("../Images/icono.png")).getImage());
 
-        setSize(669, 575);
+        setSize(663, 575);
         setResizable(false);
         contador_users=0;
         agregarValores("$todos");
@@ -131,7 +131,15 @@ public class Index extends javax.swing.JFrame implements Runnable{
         view.Activar();
         userViewActico=view;
     }
-    
+    public void agregarMensaje(String mensaje,User user){
+        
+        for (UserView item : listaUserView) {
+            if(item.getUser().trim().equals(user.getUsername().trim())){
+                item.agregarMensaje(mensaje);
+            }
+        }
+        
+    }
 
 
     public void setSocket(SocketController socket) {
@@ -150,10 +158,13 @@ public class Index extends javax.swing.JFrame implements Runnable{
 
     public void setMyuser(String myuser) {
         this.myuser = myuser;
+        this.lblUsername.setText(myuser);
     }
     
     
     public void addUserList(String cadena){
+        for (User item :this.users){ item.setActivo(false);}
+    
         
         String vector[]=cadena.split(";");
         boolean bandera=false;
@@ -162,16 +173,31 @@ public class Index extends javax.swing.JFrame implements Runnable{
             String id_temp[]=vector[i].split(" ");
             if(!myuser.toUpperCase().equals(id_temp[1].toUpperCase())){
             for (User item :this.users){
+                
                 if(item.getId()==Integer.parseInt(id_temp[0])){
+                    item.setActivo(true);
                     bandera=true;
                 }
             }
             if(!bandera){
-            this.users.add(new User(Integer.parseInt(id_temp[0]),id_temp[1],new Texto()));
+               User user= new User(Integer.parseInt(id_temp[0]),id_temp[1],new Texto());
+            this.users.add(user);
+            user.setActivo(true);
             agregarValores(id_temp[1]);
             }
             }
             }
+        for (User item :this.users){
+            if(!item.isActivo()){
+                for (UserView aux: listaUserView) {
+                    if(aux.getUser().equals(item.getUsername())){
+                        if(!aux.getUser().equals(""))
+                        aux.desconectar();
+                    }
+                }
+            }
+        }
+        
     }
     //Cambioa el jpanel de cada chat 
     public void cambiarChat(String username){
@@ -265,13 +291,12 @@ public class Index extends javax.swing.JFrame implements Runnable{
         jPanel1 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
+        lblUsername = new javax.swing.JLabel();
         numusers = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         panelEntry = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         entrydata = new javax.swing.JTextField();
         btnsend = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -291,9 +316,9 @@ public class Index extends javax.swing.JFrame implements Runnable{
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(242, 242, 242));
-        jLabel3.setText("Username");
+        lblUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblUsername.setForeground(new java.awt.Color(242, 242, 242));
+        lblUsername.setText("Username");
 
         numusers.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         numusers.setForeground(new java.awt.Color(242, 242, 242));
@@ -306,7 +331,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
+                    .addComponent(lblUsername)
                     .addComponent(numusers))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -316,7 +341,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jLabel3)
+                .addComponent(lblUsername)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(numusers)
                 .addGap(15, 15, 15))
@@ -354,8 +379,6 @@ public class Index extends javax.swing.JFrame implements Runnable{
         jPanel2.setAlignmentX(0.0F);
         jPanel2.setLayout(null);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/emoticon.png"))); // NOI18N
-
         entrydata.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         entrydata.setText("Escribe un mensaje");
         entrydata.setBorder(null);
@@ -382,26 +405,24 @@ public class Index extends javax.swing.JFrame implements Runnable{
         panelEntryLayout.setHorizontalGroup(
             panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEntryLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(entrydata, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(entrydata, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnsend)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
         panelEntryLayout.setVerticalGroup(
             panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEntryLayout.createSequentialGroup()
-                .addGroup(panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(entrydata, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                    .addComponent(btnsend, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14))
+                .addContainerGap()
+                .addGroup(panelEntryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnsend, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(entrydata, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.add(panelEntry);
-        panelEntry.setBounds(0, 496, 400, 60);
+        panelEntry.setBounds(0, 496, 390, 60);
 
         jPanel5.setBackground(new java.awt.Color(37, 53, 91));
 
@@ -438,21 +459,21 @@ public class Index extends javax.swing.JFrame implements Runnable{
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 440, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
         );
 
         jPanel2.add(mainPanel);
-        mainPanel.setBounds(0, 60, 390, 440);
+        mainPanel.setBounds(0, 60, 390, 437);
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(279, 0, 390, 554);
+        jPanel2.setBounds(272, 0, 390, 554);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
@@ -490,6 +511,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
             MensajeView aux=temp.jpanel.AgregarEntrante(mensaje,id);
             aux.setIndex(this);
             temp.addMensaje(aux);
+            agregarMensaje(mensaje, temp);
         }
         
     }
@@ -556,8 +578,6 @@ public class Index extends javax.swing.JFrame implements Runnable{
     private javax.swing.JTextField entrydata;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -565,6 +585,7 @@ public class Index extends javax.swing.JFrame implements Runnable{
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblUsername;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel numusers;
     private javax.swing.JPanel panelEntry;
@@ -594,7 +615,14 @@ public class Index extends javax.swing.JFrame implements Runnable{
             aux.setIndex(this);
            msgViewtemp.addMensaje(aux);
             this.entrydata.setText("");
-        }else if(llegada.startsWith("REMOVEMSG")){
+        }else if(Respuestas.isMsgError(response)){
+                MensajeView aux=msgViewtemp.jpanel.AgregarSaliente("Mensaje no enviado","0000");
+            aux.setIndex(this);
+            aux.SetTrash();
+           msgViewtemp.addMensaje(aux);
+            this.entrydata.setText("");         
+        }
+        else if(llegada.startsWith("REMOVEMSG")){
             System.out.println("remove msg");
             removeMsg(llegada.substring(10).trim());
         }else if(Respuestas.numerouser(response)){

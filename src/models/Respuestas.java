@@ -53,7 +53,7 @@ public class   Respuestas {
                 mensaje="Numero de usuarios";
                 break;
             case(REGISTRO_ERROR):
-                mensaje="Error al registrar";
+                mensaje="El usuario ya se encuentra registrado";
                 break;
             case(MENSAJE_NO_ENVIADO):
                 mensaje="El mensaje no se a enviado";
@@ -62,7 +62,7 @@ public class   Respuestas {
                 mensaje="El mensaje no se a enviado";
                 break;
             case(USUARIO_NO_VALIDO):
-                mensaje="Usuario no valido";
+                mensaje="Ingrese minimo 8 caracteres";
                 break;
             case(MENSAJE_NO_BORRADO):
                 mensaje="Mensaje no eliminado";
@@ -98,6 +98,12 @@ public class   Respuestas {
     }
     public static boolean isMsg(String data){
         if(data.equals(MENSAJE_ENVIADO) || data.equals(MENSAJE_BROADCAST)){
+            return true;
+        }
+        return false;
+    }
+    public static boolean isMsgError(String data){
+        if(data.equals(MENSAJE_NO_ENVIADO) || data.equals(MENSAJE_NO_BROADCAST)){
             return true;
         }
         return false;

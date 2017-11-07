@@ -17,6 +17,7 @@ public class User {
     private int id;
     private String username;
     public Texto jpanel;
+    public boolean activo;
 
     LinkedList<MensajeView> mensajes;
     
@@ -25,6 +26,14 @@ public class User {
         this.username = username;
         this.jpanel=jPanel;
         mensajes=new LinkedList<MensajeView>();
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public boolean isActivo() {
+        return activo;
     }
         
 
